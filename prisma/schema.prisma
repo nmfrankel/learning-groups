@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String
+  password       String?
+  phone          String
+  pictureURL     String?
+  active         Boolean  @default(true)
+  isRoshChaburah Boolean  @default(false)
+  isDonor        Boolean  @default(false)
+  progress       Event[]  @relation("progress")
+  chaburahID     Int
+  chaburah       Chaburah @relation("bneiChaburah", fields: [chaburahID], references: [id])
+  files          File[]   @relation("userFiles")
+  noted          Note[]   @relation("noted")
+  notes          Note[]   @relation("notes")
+}
+
+model Chaburah {
+  id       Int     @id @default(autoincrement())
+  yeshiva  String
+  bochurim User[]  @relation("bneiChaburah")
+  events   Event[] @relation("chaburahEvents")
+}
+
+model File {
+  id               Int      @id @default(autoincrement())
+  name             String
+  storage_location String
+  createdAt        DateTime @default(now())
+  ownerID          Int
+  owner            User     @relation("userFiles", fields: [ownerID], references: [id])
+}
+
+model Event {
+  id         Int       @id @default(autoincrement())
+  type       String
+  name       String?
+  createdAt  DateTime  @default(now())
+  expires    DateTime?
+  bochurID   Int?
+  bochur     User?     @relation("progress", fields: [bochurID], references: [id])
+  chaburahID Int?
+  chaburah   Chaburah? @relation("chaburahEvents", fields: [chaburahID], references: [id])
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  authorID  Int
+  author    User     @relation("noted", fields: [authorID], references: [id])
+  bochurID  Int
+  bochur    User     @relation("notes", fields: [bochurID], references: [id])
+}

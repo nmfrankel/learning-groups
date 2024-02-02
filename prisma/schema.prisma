@@ -13,7 +13,6 @@ model User {
   password       String?
   phone          String
   pictureURL     String?
-  active         Boolean  @default(true)
   isRoshChaburah Boolean  @default(false)
   isDonor        Boolean  @default(false)
   progress       Event[]  @relation("progress")
@@ -43,13 +42,15 @@ model File {
 model Event {
   id         Int       @id @default(autoincrement())
   type       String
-  name       String?
+  value      String?
   createdAt  DateTime  @default(now())
   expires    DateTime?
   bochurID   Int?
   bochur     User?     @relation("progress", fields: [bochurID], references: [id])
   chaburahID Int?
   chaburah   Chaburah? @relation("chaburahEvents", fields: [chaburahID], references: [id])
+
+  @@index([type])
 }
 
 model Note {
@@ -61,3 +62,6 @@ model Note {
   bochurID  Int
   bochur    User     @relation("notes", fields: [bochurID], references: [id])
 }
+
+// npx prisma migrate dev --name init
+// npx prisma migrate dev --create-only

@@ -35,7 +35,7 @@ export async function PATCH({ params, request }) {
 export async function DELETE({ params }) {
 	const { donorID } = params;
 
-	const donor = await prisma.user.findMany({
+	const donor = await prisma.user.delete({
 		where: {
 			id: Number(donorID)
 		}

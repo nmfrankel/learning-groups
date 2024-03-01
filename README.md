@@ -6,7 +6,7 @@ This web-app was designed to help independent study groups track student achieve
 
 - [ ] Write clear requirements for the app concept
 - [x] Design database
-- [ ] Build backend - API routes
+- [ ] Build & documented backend - API routes
 - [ ] Design & build frontend - GUI
 - [ ] Write tests (CI)
 - [ ] Setup automated deployement (CD)

@@ -2,6 +2,26 @@
 
 This web-app was designed to help independent study groups track student achievements.
 
+## Development
+
+1. Copy .env.example to .env.local and update the variables:
+
+```bash
+cp .env.example .env.local
+```
+
+1. Install dependencies and generate prisma client:
+
+```bash
+npm install && npx prisma generate
+```
+
+1. Start the dev server:
+
+```bash
+npm run dev
+```
+
 ## Project progress
 
 - [ ] Write clear requirements for the app concept

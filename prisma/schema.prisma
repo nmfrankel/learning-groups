@@ -13,7 +13,7 @@ model User {
   password       String?
   phone          String
   pictureURL     String?
-  isRoshChaburah Boolean   @default(false)
+  isAdmin        Boolean   @default(false)
   isDonor        Boolean   @default(false)
   progress       Event[]   @relation("progress")
   chaburahID     Int?

@@ -1,3 +1,3 @@
-This page will view/create/delete the rosh chaburah all his members. He can select a single member
-from the table and will be taken to `/members/[memberID]` He can also post upcoming vaadim and view
-them.
+The admin will be able to CRUD operations on chaburos. Additionally, he can move users between
+chaburos and view/create events (vaadim) which rosh chaburos will see. There will also be a --flag
+the admin will be able to set to drop into a chaburah and see it's talmidim.

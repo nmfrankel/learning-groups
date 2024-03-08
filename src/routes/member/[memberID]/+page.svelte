@@ -9,7 +9,11 @@
 	files, to save for future record.
 </div>
 
-<div>
-	<div>Name: {member.name}</div>
-	<div>Phone: {member.phone}</div>
+<div class="mt-4">
+	<div>
+		Name: <b>{member.name}</b>
+	</div>
+	<div>
+		Phone: <b>{member.phone}</b>
+	</div>
 </div>

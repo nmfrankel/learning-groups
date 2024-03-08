@@ -1,25 +1,24 @@
 <script>
-	import { api } from '$lib/api';
+	import { api } from '$lib/utils';
 	export let data;
 	const { chaburah } = data;
 
-	async function addMember () {
-		const newMember = {
-			name: 'Chaim Zanvel',
-			phone: '+0520000000',
-			chaburahID: 7
-		}
-
-		const res = await api('POST', 'members', newMember);
-
-		if(res.status !== 200) {
-			console.log('An error occured while adding the new member');
-			return
-		}
-
-		const member = await res.json();
-		chaburah.bochurim = [...chaburah.bochurim, member];
+	let newMember = {
+		name: 'Shlomo Person',
+		phone: '',
+		chaburahID: 7
 	};
+
+	async function addMember() {
+		const [err, member] = await api('POST', 'members', newMember);
+
+		if (!member) {
+			console.log('An error occured while adding the new member');
+			return;
+		}
+
+		chaburah.bochurim = [...chaburah.bochurim, member];
+	}
 </script>
 
 <h1>Rosh Chaburah Panel</h1>

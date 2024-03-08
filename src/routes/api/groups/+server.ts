@@ -20,7 +20,7 @@ export async function POST({ request }) {
 
 	const group = await prisma.chaburah.create({
 		data: {
-			yeshiva,
+			yeshiva
 			// bochurim: {
 			// 	connect: {
 			// 		id: Number(leaderID)
@@ -37,7 +37,7 @@ export async function POST({ request }) {
 			chaburahID: group.id,
 			isAdmin: true
 		}
-	})
+	});
 
 	group.bochurim = [roshChaburah];
 

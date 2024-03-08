@@ -1,29 +1,28 @@
+import { api } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ fetch }) {
-    const getChaburos = async () => {
-        const res = await fetch(`/api/groups`)
-        const chaburos = await res.json()
+	const getChaburos = async () => {
+		const [err, chaburos] = await api('GET', 'groups');
 
-        if (!chaburos) {
-            throw redirect(302, '/')
-        }
+		if (!chaburos) {
+			throw redirect(302, '/');
+		}
 
-        return chaburos
-    }
-    const getMembers = async () => {
-        const res = await fetch(`/api/members`)
-        const members = await res.json()
+		return chaburos;
+	};
+	const getMembers = async () => {
+		const [err, members] = await api('GET', 'members');
 
-        if (!members) {
-            throw redirect(302, '/')
-        }
+		if (!members) {
+			throw redirect(302, '/');
+		}
 
-        return members
-    }
+		return members;
+	};
 
-    return {
-        chaburos: await getChaburos(),
-        members: await getMembers()
-    };
+	return {
+		chaburos: await getChaburos(),
+		members: await getMembers()
+	};
 }

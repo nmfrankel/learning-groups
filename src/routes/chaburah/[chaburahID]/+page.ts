@@ -1,11 +1,11 @@
+import { api } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ fetch, params }) {
+export async function load({ params }) {
 	const { chaburahID } = params;
 
 	const getChaburah = async () => {
-		const res = await fetch(`/api/groups/${chaburahID}`);
-		const chaburah = await res.json();
+		const [err, chaburah] = await api('GET', `groups/${chaburahID}`);
 
 		if (!chaburah) {
 			throw redirect(302, '/');

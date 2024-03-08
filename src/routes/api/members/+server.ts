@@ -5,6 +5,15 @@ export async function GET() {
 	const members = await prisma.user.findMany({
 		where: {
 			isDonor: false
+		},
+		select: {
+			id: true,
+			name: true,
+			phone: true,
+			isAdmin: true,
+			password: false,
+			chaburah: true,
+			progress: true
 		}
 	});
 

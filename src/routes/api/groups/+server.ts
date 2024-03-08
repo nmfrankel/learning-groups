@@ -21,14 +21,25 @@ export async function POST({ request }) {
 	const group = await prisma.chaburah.create({
 		data: {
 			yeshiva,
-			bochurim: {
-				connect: {
-					id: Number(leaderID),
-					isRoshChaburah: true
-				}
-			}
+			// bochurim: {
+			// 	connect: {
+			// 		id: Number(leaderID)
+			// 	}
+			// }
 		}
 	});
+
+	const roshChaburah = await prisma.user.update({
+		where: {
+			id: Number(leaderID)
+		},
+		data: {
+			chaburahID: group.id,
+			isAdmin: true
+		}
+	})
+
+	group.bochurim = [roshChaburah];
 
 	return json(group);
 }

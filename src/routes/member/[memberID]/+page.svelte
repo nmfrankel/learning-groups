@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-
-	const { memberID } = $page.params;
+	export let data;
+	const { member } = data;
 </script>
 
-This page will show the info for member: {memberID}. The rosh chaburah will have the ability to
-update and delete the user. Additionally, he can upload new chaburah .pdf files, to save for future
-record.
+<p>Name: {member.name}</p>
+
+<p>Phone: {member.phone}</p>

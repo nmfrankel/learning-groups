@@ -52,14 +52,16 @@ export async function DELETE({ params }) {
 		}
 	});
 
-	const clearLeaders = await prisma.user.updateMany({
-		where: {
-			chaburahID: Number(groupID)
-		},
-		data: {
-			isRoshChaburah: false
-		}
-	});
+	// TODO: Figure this out
+	// const clearLeaders = await prisma.user.updateMany({
+	// 	where: {
+	// 		chaburahID: Number(groupID)
+	// 	},
+	// 	data: {
+	// 		isRoshChaburah: false,
+
+	// 	}
+	// });
 
 	return json(group);
 }

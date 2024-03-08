@@ -24,7 +24,7 @@ export async function PATCH({ params, request }) {
 		data: {
 			name: name ?? undefined,
 			phone: phone ?? undefined,
-			chaburahID: chaburahID ?? undefined
+			chaburahID: chaburahID !== undefined ? chaburahID : undefined
 		}
 	});
 

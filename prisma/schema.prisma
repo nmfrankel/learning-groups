@@ -8,19 +8,19 @@ datasource db {
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
-  name           String
-  password       String?
-  phone          String
-  pictureURL     String?
-  isAdmin        Boolean   @default(false)
-  isDonor        Boolean   @default(false)
-  progress       Event[]   @relation("progress")
-  chaburahID     Int?
-  chaburah       Chaburah? @relation("bneiChaburah", fields: [chaburahID], references: [id])
-  files          File[]    @relation("userFiles")
-  noted          Note[]    @relation("noted")
-  notes          Note[]    @relation("notes")
+  id         Int       @id @default(autoincrement())
+  name       String
+  password   String?
+  phone      String
+  pictureURL String?
+  isAdmin    Boolean   @default(false)
+  isDonor    Boolean   @default(false)
+  progress   Event[]   @relation("progress")
+  chaburahID Int?
+  chaburah   Chaburah? @relation("bneiChaburah", fields: [chaburahID], references: [id])
+  files      File[]    @relation("userFiles")
+  noted      Note[]    @relation("noted")
+  notes      Note[]    @relation("notes")
 }
 
 model Chaburah {

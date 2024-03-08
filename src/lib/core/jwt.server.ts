@@ -14,24 +14,32 @@ function obfuscate_data(...params: string[]) {
 export function generate(payload: JwtPayload, event: RequestEvent) {
 	const client_IP = event.getClientAddress();
 	const user_agent = event.request.headers.get('User-Agent') ?? '';
-	payload.auth = obfuscate_data(client_IP, user_agent);
+	const authenticity_check = obfuscate_data(client_IP, user_agent);
 
-	const token = jwt.sign(payload, PRIVATE_JWT_SECRET, { expiresIn: '1d' });
+	const token = jwt.sign(payload, PRIVATE_JWT_SECRET, {
+		expiresIn: '1d',
+		audience: authenticity_check
+	});
 	return token;
 }
 
 export function validate(token: string, event: RequestEvent) {
-	const claims = jwt.verify(token, PRIVATE_JWT_SECRET, (_, decoded) => decoded) as Claims;
+	const client_IP = event.getClientAddress();
+	const user_agent = event.request.headers.get('User-Agent') ?? '';
+	const authenticity_check = obfuscate_data(client_IP, user_agent);
+
+	const claims = jwt.verify(
+		token,
+		PRIVATE_JWT_SECRET,
+		{ audience: authenticity_check },
+		(_, decoded) => decoded
+	) as Claims;
 
 	if (claims === undefined) return null;
 
-	const client_IP = event.getClientAddress();
-	const user_agent = event.request.headers.get('User-Agent') ?? '';
-
-	if (claims.auth !== obfuscate_data(client_IP, user_agent)) return null;
 	delete claims.iat;
 	delete claims.exp;
-	delete claims.auth;
+	delete claims.aud;
 
 	return claims;
 }

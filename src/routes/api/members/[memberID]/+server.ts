@@ -7,6 +7,15 @@ export async function GET({ params }) {
 	const member = await prisma.user.findFirst({
 		where: {
 			id: Number(memberID)
+		},
+		select: {
+			id: true,
+			name: true,
+			phone: true,
+			isAdmin: true,
+			password: false,
+			chaburah: true,
+			progress: true
 		}
 	});
 

@@ -1,20 +1,22 @@
+import { api } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ fetch, params }) {
-    const { memberID } = params;
+type LoadMemberResponse = [string | null, User | undefined];
 
-    const getMember = async () => {
-        const res = await fetch(`/api/members/${memberID}`)
-        const member = await res.json()
+export async function load({ params }) {
+	const { memberID } = params;
 
-        if (!member) {
-            throw redirect(302, '/')
-        }
+	const getMember = async () => {
+		const [err, member] = (await api('GET', `members/${memberID}`)) as LoadMemberResponse;
 
-        return member
-    }
+		if (!member) {
+			throw redirect(302, '/');
+		}
 
-    return {
-        member: await getMember()
-    };
+		return member;
+	};
+
+	return {
+		member: await getMember()
+	};
 }

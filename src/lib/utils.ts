@@ -8,6 +8,16 @@ import { PUBLIC_BASE_URL } from '$env/static/public';
  * @param resource - The resource path for the request.
  * @param data - Optional data to send with the request.
  * @returns A promise that resolves to a tuple containing the error message (if any) and the response data.
+ *
+ * @example
+ * ```typescript
+ * const [err, user] = await api('GET', `users/${userID}`);
+ * if (err) {
+ *     console.error('Error:', err);
+ * } else {
+ *     console.log('Selected user:', user);
+ * }
+ * ```
  */
 export async function api(
 	method: string,

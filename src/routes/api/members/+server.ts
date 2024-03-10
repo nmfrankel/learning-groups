@@ -28,7 +28,7 @@ export async function POST({ request }) {
 			name: name,
 			phone: phone,
 			isDonor: false,
-			chaburahID: Number(chaburahID) || undefined
+			chaburahID: chaburahID !== undefined ? Number(chaburahID) : undefined
 		}
 	});
 

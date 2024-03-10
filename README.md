@@ -7,7 +7,7 @@ This web-app was designed to help independent study groups track student achieve
 1. Copy .env.example to .env.local and update the variables:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
 1. Install dependencies and generate prisma client:

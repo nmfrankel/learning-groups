@@ -1,15 +1,17 @@
 import { json } from '@sveltejs/kit';
 import { prisma } from '$lib/server/db';
 
-export async function GET({ params, url }) {
+export async function GET({ url, params }) {
 	const { groupID } = params;
 	const skip = Number(url.searchParams.get('skip')) || 0;
-	const take = Number(url.searchParams.get('take')) || 0;
+	const take = Number(url.searchParams.get('take')) || 10;
 
 	const group = await prisma.chaburah.findFirst({
-		where: {
-			id: Number(groupID)
-		},
+		where: groupID
+			? {
+					id: Number(groupID)
+				}
+			: {},
 		include: {
 			bochurim: true,
 			events: {

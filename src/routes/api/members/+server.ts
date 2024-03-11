@@ -1,11 +1,20 @@
 import { json } from '@sveltejs/kit';
 import { prisma } from '$lib/server/db';
 
-export async function GET() {
+export async function GET({ url }) {
+	const skip = Number(url.searchParams.get('skip')) || 0;
+	const take = Number(url.searchParams.get('take')) || 10;
+	const groupID = url.searchParams.get('groupID') ?? undefined;
+
 	const members = await prisma.user.findMany({
-		where: {
-			isDonor: false
-		},
+		where: groupID
+			? {
+					id: Number(groupID),
+					isDonor: false
+				}
+			: {
+					isDonor: false
+				},
 		select: {
 			id: true,
 			name: true,
@@ -14,8 +23,12 @@ export async function GET() {
 			chaburahID: true,
 			password: false,
 			chaburah: true,
-			progress: true
-		}
+			progress: true,
+			files: true,
+			notes: true
+		},
+		skip,
+		take
 	});
 
 	return json(members);

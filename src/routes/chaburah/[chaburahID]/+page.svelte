@@ -34,13 +34,11 @@
 		}
 
 		chaburah.bochurim = [...chaburah.bochurim, member];
-
 		newMember = {
 			name: '',
 			phone: '',
 			chaburahID: chaburah.id
 		};
-
 		isDialogOpen = undefined;
 	}
 

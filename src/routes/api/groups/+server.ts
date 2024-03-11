@@ -29,17 +29,18 @@ export async function POST({ request }) {
 		}
 	});
 
-	const roshChaburah = await prisma.user.update({
-		where: {
-			id: Number(leaderID)
-		},
-		data: {
-			chaburahID: group.id,
-			isAdmin: true
-		}
-	});
-
-	group.bochurim = [roshChaburah];
+	if (leaderID) {
+		const roshChaburah = await prisma.user.update({
+			where: {
+				id: Number(leaderID)
+			},
+			data: {
+				chaburahID: group.id,
+				isAdmin: true
+			}
+		});
+		group.bochurim = [roshChaburah];
+	}
 
 	return json(group);
 }

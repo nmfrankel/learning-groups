@@ -13,6 +13,7 @@ export async function GET({ params }) {
 			name: true,
 			phone: true,
 			isAdmin: true,
+			chaburahID: true,
 			password: false,
 			chaburah: true,
 			progress: true

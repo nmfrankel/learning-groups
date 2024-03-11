@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import * as Table from '$lib/components/ui/table';
 
-	const { chaburah } = $page.data;
+	export let chaburah: any[] = [];
 </script>
 
 <Table.Root>

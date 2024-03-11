@@ -11,6 +11,7 @@ export async function GET() {
 			name: true,
 			phone: true,
 			isAdmin: true,
+			chaburahID: true,
 			password: false,
 			chaburah: true,
 			progress: true

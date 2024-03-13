@@ -3,21 +3,30 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
 	import { api } from '$lib/utils';
 	import { toast } from 'svelte-sonner';
 
 	export let isDialogOpen: string | undefined, members: any[], chaburos: any[];
 
+	let loaners: any[] = [];
+	$: loaners = members?.filter((m) => m.chaburah === null);
+
+	let selectedChaburah: any = { value: null },
+		selectedRoshChaburah: any = { value: null };
 	let newChaburah = {
 		yeshiva: '',
 		leaderID: ''
 	};
 	let newMember = {
 		name: '',
-		phone: ''
+		phone: '',
+		chaburahID: null
 	};
 
 	const createChaburah = async () => {
+		newChaburah.leaderID = selectedRoshChaburah?.value;
+		selectedRoshChaburah = { value: null };
 		const [err, chaburah] = await api('POST', 'groups', newChaburah);
 
 		if (err || !chaburah) {
@@ -40,6 +49,8 @@
 	};
 
 	async function addMember() {
+		newMember.chaburahID = selectedChaburah?.value;
+		selectedChaburah = { value: null };
 		const [err, member] = await api('POST', 'members', newMember);
 
 		if (err || !member) {
@@ -56,7 +67,8 @@
 		members = [...members, member];
 		newMember = {
 			name: '',
-			phone: ''
+			phone: '',
+			chaburahID: null
 		};
 		isDialogOpen = undefined;
 	}
@@ -69,7 +81,8 @@
 		};
 		newMember = {
 			name: '',
-			phone: ''
+			phone: '',
+			chaburahID: null
 		};
 	}
 </script>
@@ -86,12 +99,18 @@
 					<Input id="yeshiva" placeholder="Yeshiva" bind:value={newChaburah.yeshiva} />
 				</div>
 				<div class="grid gap-2">
-					<Label for="roshChaburahID">Rosh Chaburah ID</Label>
-					<Input
-						id="roshChaburahID"
-						placeholder="Rosh chaburah ID"
-						bind:value={newChaburah.leaderID}
-					/>
+					<Label for="roshChaburahID">Select Rosh Chaburah</Label>
+					<Select.Root bind:selected={selectedRoshChaburah}>
+						<Select.Trigger id="roshChaburahID">
+							<Select.Value placeholder="No rosh chaburah" />
+						</Select.Trigger>
+						<Select.Content>
+							<Select.Item value={null}>No rosh chaburah</Select.Item>
+							{#each loaners ?? [] as member (member.id)}
+								<Select.Item value={member.id}>{member.name}</Select.Item>
+							{/each}
+						</Select.Content>
+					</Select.Root>
 				</div>
 				<div class="flex justify-end gap-3">
 					<Button variant="secondary" on:click={closeDialog}>Cancel</Button>
@@ -112,6 +131,20 @@
 				<div class="grid gap-2">
 					<Label for="phone">Phone</Label>
 					<Input id="phone" placeholder="Phone number" bind:value={newMember.phone} />
+				</div>
+				<div class="grid gap-2">
+					<Label for="chaburah">Select Chaburah</Label>
+					<Select.Root bind:selected={selectedChaburah}>
+						<Select.Trigger id="chaburah">
+							<Select.Value placeholder="Not in a chaburah" />
+						</Select.Trigger>
+						<Select.Content>
+							<Select.Item value={null}>Not in a chaburah</Select.Item>
+							{#each chaburos ?? [] as chaburah (chaburah.id)}
+								<Select.Item value={chaburah.id}>{chaburah.yeshiva}</Select.Item>
+							{/each}
+						</Select.Content>
+					</Select.Root>
 				</div>
 				<div class="flex justify-end gap-3">
 					<Button variant="secondary" on:click={closeDialog}>Cancel</Button>

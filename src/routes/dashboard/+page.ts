@@ -12,7 +12,7 @@ export async function load({ fetch }) {
 		return chaburos;
 	};
 	const getMembers = async () => {
-		const [err, members] = await api('GET', 'members');
+		const [err, members] = await api('GET', 'members?take=30');
 
 		if (!members) {
 			throw redirect(302, '/');

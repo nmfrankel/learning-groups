@@ -42,7 +42,11 @@
 
 <Table.Root>
 	<Table.Caption>
-		Bachurim currently within <i>{selectedValue?.value ? selectedValue?.label : 'all'}</i>
+		Bachurim currently within
+		<i>
+			{selectedValue?.value ? selectedValue?.label : 'all'}
+			{selectedValue?.value ? `(${selectedValue?.value})` : ''}
+		</i>
 		{selectedValue?.value ? 'chaburah' : 'chaburos'}
 	</Table.Caption>
 	<Table.Header>

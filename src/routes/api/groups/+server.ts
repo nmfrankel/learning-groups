@@ -2,6 +2,8 @@ import { json } from '@sveltejs/kit';
 import { prisma } from '$lib/server/db';
 
 export async function GET() {
+	const count = await prisma.chaburah.count();
+
 	const groups = await prisma.chaburah.findMany({
 		include: {
 			bochurim: true,
@@ -12,7 +14,10 @@ export async function GET() {
 		}
 	});
 
-	return json(groups);
+	return json({
+		count,
+		groups
+	});
 }
 
 export async function POST({ request }) {

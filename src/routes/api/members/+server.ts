@@ -6,6 +6,15 @@ export async function GET({ url }) {
 	const take = Number(url.searchParams.get('take')) || 10;
 	const groupID = url.searchParams.get('groupID') ?? undefined;
 
+	const count = await prisma.user.aggregate({
+		where: {
+			isDonor: false
+		},
+		_count: {
+			_all: true
+		}
+	});
+
 	const members = await prisma.user.findMany({
 		where: groupID
 			? {
@@ -31,7 +40,10 @@ export async function GET({ url }) {
 		take
 	});
 
-	return json(members);
+	return json({
+		count,
+		members
+	});
 }
 
 export async function POST({ request }) {

@@ -2,13 +2,25 @@ import { json } from '@sveltejs/kit';
 import { prisma } from '$lib/server/db';
 
 export async function GET() {
+	const count = await prisma.user.aggregate({
+		where: {
+			isDonor: true
+		},
+		_count: {
+			_all: true
+		}
+	});
+
 	const donors = await prisma.user.findMany({
 		where: {
 			isDonor: true
 		}
 	});
 
-	return json(donors);
+	return json({
+		count,
+		donors
+	});
 }
 
 export async function POST({ request }) {

@@ -6,7 +6,61 @@
 	import Dialog from './Dialog.svelte';
 
 	export let data;
-	let { chaburos, members } = data;
+	let { chaburosData, membersData } = data;
+	let {chaburos} = chaburosData
+	let {members} = membersData
+
+	let loaners: any[] = [];
+	$: loaners = members.filter((m) => m.chaburah === null);
+
+	let newChaburah = {
+		yeshiva: '',
+		leaderID: ''
+	};
+
+	let newMember = {
+		name: '',
+		phone: ''
+	};
+
+	const createChaburah = async () => {
+		const [err, chaburah] = await api('POST', 'groups', newChaburah);
+
+		if (!chaburah) {
+			// Show message w/ sonner
+			console.log('An error occured while adding the new chaburah');
+			return;
+		}
+
+		chaburos = [...chaburos, chaburah];
+
+		// reset once completed
+		newChaburah = {
+			yeshiva: '',
+			leaderID: ''
+		};
+	};
+
+	const deleteChaburah = async (chaburahID: string) => {
+		const [err, chaburah] = await api('DELETE', `groups/${chaburahID}`);
+
+		if (!chaburah) {
+			// Show message w/ sonner
+			console.log('An error occured while deleting the selected chaburah');
+			return;
+		}
+
+		chaburos = chaburos.filter((c) => c.id !== chaburahID);
+	};
+
+	const createMember = async () => {
+		const [err, member] = await api('POST', 'members', newMember);
+
+		if (!member) {
+			// Show message w/ sonner
+			console.log('An error occured while adding the new member');
+			return;
+		}
 
 	let loaners: any[] = [];
 	$: loaners = members?.filter((m) => m.chaburah === null);

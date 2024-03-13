@@ -22,7 +22,7 @@ export async function load({ fetch }) {
 	};
 
 	return {
-		chaburos: await getChaburos(),
-		members: await getMembers()
+		chaburosData: await getChaburos(),
+		membersData: await getMembers()
 	};
 }
